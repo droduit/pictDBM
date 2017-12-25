@@ -1,0 +1,9 @@
+There are VERY strict rules about the style, is not enough to just
+pay attention. The use of the tool 'astyle' is enforced; as a
+definitive solution, please consider adding the following to your Makefile:
+
+style:
+	astyle -A8 *.c *.h
+
+Be sure to run 'make style' before submitting/committing.
+

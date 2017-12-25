@@ -1,0 +1,35 @@
+# emacs and general save files
+*~
+\#*\#
+
+# vim swap
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+
+# Objects
+*.o
+
+# The binary
+pictDBM
+pictDB_server
+libmongoose.so
+
+# Doxygen generation
+latex/
+html/
+
+# Mac OSX, from https://github.com/github/gitignore/blob/master/Global/OSX.gitignore
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
