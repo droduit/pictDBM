@@ -1,7 +1,11 @@
 # Pictures Database Manager
 
-## Server
-<img src="http://dominique.leroduit.com/pictDBM_server.png" alt="PictDBM Server" />
+## Description
+
+
+## Preview
+![pictDBM_server](https://user-images.githubusercontent.com/9269271/210625164-04890801-e3f2-4515-b4fe-b74d411e29ca.png)
+
 
 ## Commands available
 ```java
