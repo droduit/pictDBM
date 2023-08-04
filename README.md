@@ -21,11 +21,11 @@ This “deduplication” is done using a “hash function” which summarizes bi
 
 1. Clone this git repository locally
 2. Make sure the following packages are installed :
-    - glib
-    - pkg-config
-    - vips
+    - [glib](https://docs.gtk.org/glib/)
+    - [pkg-config](https://en.wikipedia.org/wiki/Pkg-config)
+    - [libvips](https://github.com/libvips/libvips/tree/master)
     
-    If not, MacOS: `brew install vips pkg-config`
+    If not, MacOS: `brew install libvips pkg-config`
 
 3. From the root of the project, run `cd libmongoose && make clean && make all`.
 4. From the root of the project, run `make clean-all && make all`.
