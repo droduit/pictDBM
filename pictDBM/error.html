@@ -1,0 +1,187 @@
+<html>
+<head>
+	<title>PictDB Pictures</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<style>
+	html {
+		background: #efefef;
+	}
+	body {
+		width: 75%;
+		margin: auto;
+		margin-top: 40px;
+		border-radius: 15px;
+		font-family: Helvetica, sans-serif;
+	}
+	h3.title {
+		position: relative;
+		padding: 15px;
+		text-align: center;
+		border-radius: 10px;
+		color: #333;
+		margin:0;
+		margin-bottom: 10px;
+		border-bottom: 1px solid #ccc;
+		
+		background: #fcfcfc; /* Old browsers */
+		background: -moz-linear-gradient(top,  #fcfcfc 0%, #d1d1d1 49%, #e2e2e2 100%); /* FF3.6-15 */
+		background: -webkit-linear-gradient(top,  #fcfcfc 0%,#d1d1d1 49%,#e2e2e2 100%); /* Chrome10-25,Safari5.1-6 */
+		background: linear-gradient(to bottom,  #fcfcfc 0%,#d1d1d1 49%,#e2e2e2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#e2e2e2',GradientType=0 ); /* IE6-9 */
+		
+		text-shadow: 1px 1px 5px white;
+	}
+
+	table.img {
+		width: 100%;
+		border-collapse: collapse;
+	}
+	
+	table.img th:nth-child(1) { width: 100px; }
+	table.img th:nth-child(2) {
+		padding-left: 10px;
+		text-align: left;
+	}
+	table.img th:last-child {
+		width: 55px;
+		border-left: 1px dashed #ddd;
+	}
+	table.img th { padding: 4px 0; }
+	table.img tr:nth-child(2n-1) th {
+		background: rgba(0,0,0,0.035);
+		transition: all 0.2s linear;
+	}
+	table.img th a[href], table.img img {
+		transition: all 0.1s linear;
+	}
+	table.img tr.selected th { background: #fcc; }
+	table.img img:hover { opacity: 0.9; }
+	table.img th a[href*="delete"]:hover {
+		display: inline-block;
+		transform: scale(1.15);
+	}
+	table.img tr.slct th {
+		background: #f7f7f7;
+		cursor: default;
+	}
+	table.img tr.empty th {
+		padding: 15px 0;
+		font-weight: normal;
+	}
+	.handle-img-area {
+		border-radius: 0 0 10px 10px;
+		border: 1px solid #cdcdcd;
+		border-top: none;
+	}
+	.insert-img {
+		position: relative;
+		text-align:center;
+	}
+	.insert-img form {
+		display: none;
+	}
+	.insert-img form input[type="file"] {
+		visibility: hidden;
+		opacity: 0;
+	}
+	.insert-img form input[type="submit"] { display: none; }
+	
+	.slct-img-bt {
+		border-radius: 10px 10px 0 0;
+		
+		border: 1px solid #cdcdcd;
+		border-top: 1px solid #dedede;
+		border-bottom: 1px solid #dadada;
+		position: relative;
+		background: #fefefe; /* Old browsers */
+		background: -moz-linear-gradient(top,  #fefefe 0%, #e5e5e5 100%); /* FF3.6-15 */
+		background: -webkit-linear-gradient(top,  #fefefe 0%,#e5e5e5 100%); /* Chrome10-25,Safari5.1-6 */
+		background: linear-gradient(to bottom,  #fefefe 0%,#e5e5e5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+
+		color: #555;
+		cursor: pointer;
+		padding: 12px 0;
+		transition: all 0.18s linear;
+	}
+	.slct-img-bt:hover {
+		background: rgb(255,255,255); /* Old browsers */
+		background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); /* FF3.6-15 */
+		background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* Chrome10-25,Safari5.1-6 */
+		background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+		color: black;
+	}
+	.slct-img-bt:hover .add { 
+		opacity: 0.8;
+	}
+	.slct-img-bt .add {
+		background: url(http://findicons.com/files/icons/2015/24x24_free_application/24/add.png) no-repeat;
+		width: 24px;
+		height: 24px;
+		display: block;
+		position: absolute;
+		opacity: 0.4;
+		right:15px;
+	}
+	#authors {
+		text-align: center;
+		margin-top: 6px;
+		font-size: 9pt;
+		color: #777;
+	}
+	@media screen and (max-width: 500px) {
+		body { margin: 0; width: 100%; }
+		table.img th { padding-left:0; width: auto; }
+		h3.title { margin-bottom: 0; }
+		.handle-img-area, h3.title, .slct-img-bt { border-radius: 0; }
+		.slct-img-bt { border-top: none; }
+	}
+	</style>
+</head>
+<body>
+	<div class="hash"></div>
+    <h3 class="title">PictDB Pictures</h3>
+    
+   
+    
+    <div id="authors">Dominique Roduit - Thierry Treyer</div>
+   
+
+</body>
+
+<script>
+
+
+
+$(function(){
+	var hash = window.location.hash.slice(1);
+	$('.hash').text(hash);
+	
+	$('.slct-img-bt').click(function(){
+		$("#up_file").click();
+	});
+	
+	$('#up_file').change(function(){
+		$(this).parent("form").trigger("submit");
+	});
+	
+	$('table.img').on("click", 'th a[href*="delete"]',  function(){
+		$(this).parent("th").parent("tr").addClass("selected");
+		var choice = confirm("Are you sure want to delete this item ?");
+		if(choice == true) {
+			window.location = $(this).attr("href");
+		} else {
+			$(this).parent("th").parent("tr").removeClass("selected");
+		}
+		return false;
+	});
+	
+	$('table.img').on("mouseenter", "tr", function(){
+		$(this).addClass("slct");
+	}).on("mouseleave", "tr", function(){
+		$(this).removeClass("slct");
+	});
+});
+</script>
+</html>

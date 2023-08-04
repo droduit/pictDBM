@@ -1,0 +1,279 @@
+<html>
+<head>
+    <title>PictDB Pictures</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <style>
+    html {
+        background: #efefef;
+    }
+    body {
+        width: 75%;
+        margin: auto;
+        margin-top: 40px;
+        border-radius: 15px;
+        font-family: Helvetica, sans-serif;
+    }
+    h3.title {
+        position: relative;
+        padding: 15px;
+        text-align: center;
+        border-radius: 10px;
+        color: #333;
+        margin:0;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+
+        background: #fcfcfc; /* Old browsers */
+        background: -moz-linear-gradient(top,  #fcfcfc 0%, #d1d1d1 49%, #e2e2e2 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top,  #fcfcfc 0%,#d1d1d1 49%,#e2e2e2 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom,  #fcfcfc 0%,#d1d1d1 49%,#e2e2e2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#e2e2e2',GradientType=0 ); /* IE6-9 */
+
+        text-shadow: 1px 1px 5px white;
+    }
+
+    table.img {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table.img th:nth-child(1) { width: 100px; }
+    table.img th:nth-child(2) {
+        padding-left: 10px;
+        text-align: left;
+    }
+    table.img th:last-child {
+        width: 55px;
+        border-left: 1px dashed #ddd;
+    }
+    table.img th { padding: 4px 0; }
+    table.img tr:nth-child(2n-1) th {
+        background: rgba(0,0,0,0.035);
+        transition: all 0.2s linear;
+    }
+    table.img th a[href], table.img img {
+        transition: all 0.1s linear;
+    }
+    table.img tr.selected th { background: #fcc; }
+    table.img img:hover { opacity: 0.9; }
+    table.img th a[href*="delete"]:hover {
+        display: inline-block;
+        transform: scale(1.15);
+    }
+    table.img tr.slct th {
+        background: #f7f7f7;
+        cursor: default;
+    }
+    table.img tr.empty th {
+        padding: 15px 0;
+        font-weight: normal;
+    }
+    .handle-img-area {
+        border-radius: 0 0 10px 10px;
+        border: 1px solid #cdcdcd;
+        border-top: none;
+    }
+    .insert-img {
+        position: relative;
+        text-align:center;
+    }
+    .insert-img form {
+        display: none;
+    }
+    .insert-img form input[type="file"] {
+        visibility: hidden;
+        opacity: 0;
+    }
+    .insert-img form input[type="submit"] { display: none; }
+
+    .slct-img-bt {
+        border-radius: 10px 10px 0 0;
+
+        border: 1px solid #cdcdcd;
+        border-top: 1px solid #dedede;
+        border-bottom: 1px solid #dadada;
+        position: relative;
+        background: #fefefe; /* Old browsers */
+        background: -moz-linear-gradient(top,  #fefefe 0%, #e5e5e5 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top,  #fefefe 0%,#e5e5e5 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom,  #fefefe 0%,#e5e5e5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+
+        color: #555;
+        cursor: pointer;
+        padding: 12px 0;
+        transition: all 0.18s linear;
+    }
+    .slct-img-bt:hover {
+        background: rgb(255,255,255); /* Old browsers */
+        background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+        color: black;
+    }
+    .slct-img-bt:hover .add {
+        opacity: 0.8;
+    }
+    .slct-img-bt .add {
+        background: url(http://findicons.com/files/icons/2015/24x24_free_application/24/add.png) no-repeat;
+        width: 24px;
+        height: 24px;
+        display: block;
+        position: absolute;
+        opacity: 0.4;
+        right:15px;
+    }
+    #authors {
+        text-align: center;
+        margin-top: 6px;
+        margin-bottom: 8px;
+        font-size: 9pt;
+        color: #777;
+    }
+    .error {
+        display: none;
+        background: #faa;
+        border: 1px solid #f44;
+        border-radius: 10px;
+        padding: 9px 0;
+        text-align: center;
+        margin-bottom: 8px;
+    }
+    @media screen and (max-width: 500px) {
+        body { margin: 0; width: 100%; }
+        table.img th { padding-left:0; width: auto; }
+        h3.title { margin-bottom: 0; }
+        .handle-img-area, h3.title, .slct-img-bt { border-radius: 0; }
+        .slct-img-bt { border-top: none; }
+    }
+    </style>
+</head>
+<body>
+    <h3 class="title">PictDB Pictures</h3>
+    
+    <div class="error"></div>
+    
+    <div class="insert-img">
+        <div class="slct-img-bt"><div class="add"></div>S&eacute;lectionner une image ...</div>
+        <form action='http://localhost:8000/pictDB/insert' method='POST' enctype="multipart/form-data">
+          <input type='file' name='up_file' id='up_file' />
+          <input type='submit' />
+        </form>
+    </div>
+    
+    <div class="handle-img-area">
+        <table border="0" cellspacing="20" class="img"></table>
+    </div>
+    
+    <div id="authors">Dominique Roduit - Thierry Treyer</div>
+   
+
+</body>
+
+<script>
+var getJSON = function(url) {
+  return new Promise(function(resolve, reject) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('get', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+      var status = xhr.status;
+      if (status == 200) {
+        resolve(xhr.response);
+      } else {
+        reject(status);
+      }
+    };
+    xhr.send();
+  });
+};
+
+getJSON('http://localhost:8000/pictDB/list').then(function(data) {
+    $(document).ready(function(){
+        if(data.Pictures.length == 0) {
+            $('table').append('<tr class="empty"><th>Empty database</th></tr>');
+        } else {
+            for (var i = data.Pictures.length-1; i >= 0; i--) {
+                var pic = data.Pictures[i];
+                $("table").append('<tr>' +
+                  '<th> <a href="http://localhost:8000/pictDB/read?res=orig&pict_id='+pic+'" >' +
+                  '<img border="0" alt="NoPic" src="http://localhost:8000/pictDB/read?res=thumb&pict_id='+pic+'" ></a></th>' +
+                  '<th>' + pic + '</th>' +
+                  '<th></th>'+
+                  '<th> <a onclick="return false;" href="http://localhost:8000/pictDB/delete?pict_id='+pic+'" >' +
+                  '<img border="0" alt="NoPic" src="http://findicons.com/files/icons/2015/24x24_free_application/24/erase.png" ></a></th>' +
+                  '</tr>');
+            }
+        }
+    })
+}, function(status) {
+  alert('Something went wrong.');
+});
+
+
+$(function(){
+    var params = {};
+    var splitted_params = window.location.search.substr(1).split('&');
+    for (var i = 0, l = splitted_params.length; i < l; i++) {
+        var param = splitted_params[i].split('=');
+
+        params[param[0]] = param[1];
+    }
+
+    var err = [
+        "(no error)", // Pas d'erreur
+        "Erreur I/O",
+        "(re|m|c)alloc echoué",
+        "Pas assez d'arguments",
+        "Nom de fichier invalide",
+        "Commande invalide",
+        "Argument invalide",
+        "Nombre max_files invalide",
+        "Resolution(s) invalides",
+        "L'identifiant de l'image sélectionnée est invalide",
+        "La base de donnée est pleine ! Appliquez gc pour nettoyer le fichier.",
+        "Le fichier sélectionné n'a pas été trouvé",
+        "Fonctionnalité non implémentée",
+        "Le nom de l'image choisie existe déjà dans la base de donnée",
+        "Erreur VIPS (le fichier sélectionné est peut etre dans un mauvais format)",
+        "Impossible de démarrer le listener",
+        "Erreur interne",
+        "Paramètre invalide ou manquant",
+        "Debug"
+    ];
+    
+    var err_id = parseInt(params['error']);
+    if(!isNaN(err_id) && err_id > 0 && err_id < err.length) {
+        $('.error').html(err[err_id]).css("display","block");
+        setTimeout(function(){ $('.error').fadeOut(4000); }, 3000);
+    }
+
+    $('.slct-img-bt').click(function(){
+        $("#up_file").click();
+    });
+
+    $('#up_file').change(function(){
+        $(this).parent("form").trigger("submit");
+    });
+
+    $('table.img').on("click", 'th a[href*="delete"]',  function(){
+        $(this).parent("th").parent("tr").addClass("selected");
+        var choice = confirm("Are you sure want to delete this item ?");
+        if(choice == true) {
+            window.location = $(this).attr("href");
+        } else {
+            $(this).parent("th").parent("tr").removeClass("selected");
+        }
+        return false;
+    });
+
+    $('table.img').on("mouseenter", "tr:not(.empty)", function(){
+        $(this).addClass("slct");
+    }).on("mouseleave", "tr", function(){
+        $(this).removeClass("slct");
+    });
+});
+</script>
+</html>
