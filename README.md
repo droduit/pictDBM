@@ -75,4 +75,7 @@ This “deduplication” is done using a “hash function” which summarizes bi
 
 - Dominique Roduit ([@droduit](https://github.com/droduit))
 - Thierry Treyer ([@ttreyer](https://github.com/ttreyer))
-- Romain Gehrig ([@RomainGehrig](https://github.com/RomainGehrig))
+
+## Note
+
+Project completed within the context of the EPFL course « [System programming project](https://edu.epfl.ch/coursebook/en/system-programming-project-CS-212) »
