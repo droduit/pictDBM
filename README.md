@@ -17,7 +17,7 @@ This “deduplication” is done using a “hash function” which summarizes bi
 ## Preview
 ![pictDBM_server](https://user-images.githubusercontent.com/9269271/210625164-04890801-e3f2-4515-b4fe-b74d411e29ca.png)
 
-# How to install
+## How to install
 
 1. Clone this git repository locally
 2. Make sure the following packages are installed :
