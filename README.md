@@ -31,7 +31,7 @@ This “deduplication” is done using a “hash function” which summarizes bi
 4. From the root of the project, run `make clean-all && make all`.
 5. Copy `libmongoose/libmongoose.so` into the root folder: `cp libmongoose/libmongoose.so libmongoose.so`.
 6. Run the server with `make server`.
-7. Open `index.html` on any browser. 
+7. Open `localhost:8000` on any browser. 
 
 ## Makefile commands
 
